@@ -10,7 +10,7 @@ import Data.Maybe
 
 import Diagrams.Prelude
 
-import Plots.PlotArea
+import Plots.Types
 
 data TickOpts = TickOpts
     { _tickLength :: Double

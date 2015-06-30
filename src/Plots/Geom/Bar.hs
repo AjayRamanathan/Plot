@@ -12,7 +12,9 @@ import Control.Lens (makeLenses, (^.), both)
 import Data.Default
 import Data.Maybe
 
-import Control.Lens (makeLenses, (^.), both)
+import Diagrams.Prelude
+import Diagrams.TwoD.Path
+import Diagrams.Attributes
 
 import Plots.Types
 import Plots.Utils

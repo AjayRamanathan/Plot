@@ -20,6 +20,7 @@ import Data.List
 
 import Diagrams.Prelude
 
+import Plots.Dataset
 import Plots.Types
 import Plots.Utils
 

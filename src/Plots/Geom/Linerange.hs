@@ -4,7 +4,7 @@ module Plots.Geom.Linerange
     ( Geom_LinerangeH(..)
     , transformlinerangeh
     , drawlinerangehS
-    , drawlinerangehM  
+    , drawlinerangehM'  
 
     , Geom_LinerangeV(..)
     , transformlinerangev
@@ -30,6 +30,7 @@ import Diagrams.Prelude
 import Diagrams.TwoD.Path
 import Diagrams.Attributes
 
+import Plots.Dataset
 import Plots.Types
 import Plots.Utils
 import Plots.Geom.Box

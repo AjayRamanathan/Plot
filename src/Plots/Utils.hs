@@ -7,13 +7,14 @@ module Plots.Utils
     , append'
     , maker'
 
-    , shapeScale
     , alphaScale
     , sizeScale
     , colourScale
-    , shapedata
     , colourdata
-
+    , shapeScale
+    , shapedata
+    
+    , PointShape(..)
     , DiaR2
     
     , mapdisContinous
@@ -72,7 +73,18 @@ horizonsS xs w = position (zip ([makepoint (-0.5,-0.52)]) [(mconcat [ text t # f
 ---- crop at w and h
 
 type DiaR2 = Diagram B R2
+----------------------------
+data PointShape = PointShapeCircle   --  A circle.
+                | PointShapeTriangle -- A Triangle
+                | PointShapeSquare -- Square
 
+-- add more shapes, with parameters
+
+shapeScale :: [PointShape]
+shapeScale = [PointShapeCircle, PointShapeTriangle, PointShapeSquare]
+
+shapedata = mapdisContinous species shapeScale
+----------------------------
 doubleparts = 10.0
 
 multiply' x y = x*y

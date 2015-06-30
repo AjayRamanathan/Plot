@@ -1,8 +1,8 @@
 module Plots (
       module Plots.Api
     , module Plots.Axis
-    , module Plots.Basic
-    , module Plots.DataSet
+    --, module Plots.Basic
+    , module Plots.Dataset
     , module Plots.PlotArea
     , module Plots.Ticks
     , module Plots.Types
@@ -23,7 +23,7 @@ module Plots (
 
  import  Plots.Api
  import  Plots.Axis
- import  Plots.Basic
+ --import  Plots.Basic
  import  Plots.Dataset
  import  Plots.PlotArea
  import  Plots.Ticks

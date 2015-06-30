@@ -18,6 +18,10 @@ import Data.List
 import Diagrams.Prelude
 import Diagrams.Backend.Cairo.CmdLine
 
+import Plots.Utils
+import Plots.Dataset
+--import Plots.Geom.Point
+
 class ShapeSystem a where
     shapesystem :: a -> [PointShape]
 

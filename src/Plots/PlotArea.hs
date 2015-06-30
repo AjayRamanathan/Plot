@@ -2,35 +2,38 @@
 
 module Plots.PlotArea 
     ( P(..)
-    , PlotArea
-    , plotAreaWidth
-    , plotAreaHeight
-    , plotAreaLeft
-    , plotAreaRight
-    , plotAreaTop
-    , plotAreaBottom
-    , plotAreaBackground
+    --, PlotArea
+    --, plotAreaWidth
+    --, plotAreaHeight
+    --, plotAreaLeft
+    --, plotAreaRight
+    --, plotAreaTop
+    --, plotAreaBottom
+    --, plotAreaBackground
 
-    , plotArea
-    , showPlot
+    --, plotArea
+    --, showPlot
 
-    , placeOn
-    , (<+)
+    --, placeOn
+    --, (<+)
     ) where
 
 import Control.Lens (makeLenses, (^.))
+
 import Diagrams.Prelude hiding (rotation, size)
+import Diagrams.Backend.Cairo (B)
 
 import Plots.Axis
--- import Plots.Types
--- import Plots.Utils (text')
+import Plots.Types
+import Plots.Utils (text')
 
+type DiaR2 = Diagram B R2
 -- change this too perhaps only flip and 2 co-ords
 data P = BL  -- Bottom Left
        | TL  -- Top Left
        | TR  -- Top Right
        | BR  -- Bottom Right
-
+{-
 data PlotArea = PlotArea
     { _plotAreaWidth :: !Double
     , _plotAreaHeight :: !Double
@@ -120,3 +123,4 @@ placeOn (pltFn, p) area = plotAreaPlots %~ (mconcat plt:) $ area
 (<+) :: PlotArea -> (PlotFunction, P) -> PlotArea
 infixl 1 <+
 (<+) = flip placeOn
+-}

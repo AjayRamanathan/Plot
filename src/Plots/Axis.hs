@@ -5,35 +5,28 @@
 {-# LANGUAGE FlexibleInstances #-}
 
 module Plots.Axis
-    ( AxisFunction(..)
-    , LabelOpt
-    
-    , coordCartesian
-    , verticksD
-    , verticksS
+    ( --AxisFunction(..)
+    --, LabelOpt
 
-    , horizonsD
-    , horizonsS
-
-    , Axis(..)
-    , axisMap
-    , axisLabels
-    , axisDiag
-    , axisLabelOpt
-    , offsetX
-    , offsetY
-    , rotation
-    , size
-    , fontFamily
+    --, Axis(..)
+    --, axisMap
+    --, axisLabels
+    --, axisDiag
+    --, axisLabelOpt
+    --, offsetX
+    --, offsetY
+    --, rotation
+    --, size
+    --, fontFamily
     
-    , realAxis
-    , indexAxis
-    , emptyAxis
-    , axis
+    --, realAxis
+    --, indexAxis
+    --, emptyAxis
+    --, axis
     
-    , tickLen
-    , minorTickLen
-    , labelOpt
+    --, tickLen
+    --, minorTickLen
+    --, labelOpt
     ) where
 
 import Control.Lens (makeLenses, (^.))
@@ -42,7 +35,9 @@ import Data.Default
 import Diagrams.Prelude hiding (pad, rotation, size)
 
 import Plots.Ticks
-
+import Plots.Utils
+import Plots.Types
+{-
 -- rendering of labels
 data LabelOpt = LabelOpt
     { _labelOptOffsetX :: !Double
@@ -110,25 +105,25 @@ flipAxisFn axisF = AxisFunction $ do (Axis m labels diag) <- makeAxis axisF
 realAxis :: (Double, Double) -> Double -> AxisOpt -> AxisFunction
 realAxis r pad' opt = AxisFunction ( \len ->
     let pMap = linearMap (fromRational l, fromRational u) (pad', len-pad')
-        (l, u, step) = autoSteps ((opt^.nTick)-1) r
-        axis' = lwO 1 $ axis len pad' $ opt & nTick .~ tickN'
+        (l, u, step) = autoSteps ((opt^._nTick)-1) r
+        axis' = lwO 1 $ axis len pad' $ opt & _nTick .~ tickN'
         labels = zip labelP
             $ map ((show :: Float -> String) . fromRational) [l, l+step .. u]
         tickN' = truncate ((u - l) / step) + 1
         labelP = zip (enumFromThenTo pad' (pad'+stepLabel) (len-pad')) $ repeat 0
         stepLabel = (len - 2*pad') / fromIntegral (tickN' - 1)
-    in Axis pMap axis' labels (opt^.labelOpt) )
+    in Axis pMap axis' labels (opt^._labelOpt) )
 
 indexAxis :: Int -> [String] -> Double -> AxisOpt -> AxisFunction
 indexAxis num labels pad' opt = AxisFunction
-    ( \len -> let axis' = axis len pad' $ opt & nTick .~ num
-                                              & nMinorTick .~ 0
-                                              & minorTickLen .~ 0
+    ( \len -> let axis' = axis len pad' $ opt & _nTick .~ num
+                                              & _nMinorTick .~ 0
+                                              & _minorTickLen .~ 0
                   pMap = linearMap (1, fromIntegral num) (pad', len-pad')
                   labels' = zip labelP labels
                   labelP = zip (enumFromThenTo pad' (pad'+stepLabel) (len-pad')) $ repeat 0
                   stepLabel = (len - 2*pad') / fromIntegral (num - 1)
-              in Axis pMap axis' labels' (opt^.labelOpt)
+              in Axis pMap axis' labels' (opt^._labelOpt)
     )
 
 emptyAxis :: AxisFunction
@@ -140,12 +135,13 @@ axis :: Double -> Double -> AxisOpt -> DiaR2
 axis len pad opt = l <> translateX pad (majorTicks <> minorTicks)
   where
     l = fromVertices [ 0 ^& 0, len ^& 0 ]
-    majorTicks = ticks (len - 2*pad) (opt^.nTick) (opt^.tickLen)
-    minorTicks = ticks (len - 2*pad) minorN (opt^.minorTickLen)
-    minorN = ((opt^.nMinorTick) + 1) * ((opt^.nTick) - 1) + 1
+    majorTicks = ticks (len - 2*pad) (opt^._nTick) (opt^._tickLen)
+    minorTicks = ticks (len - 2*pad) minorN (opt^._minorTickLen)
+    minorN = ((opt^._nMinorTick) + 1) * ((opt^._nTick) - 1) + 1
 
 ticks :: Double -> Int -> Double -> DiaR2
 ticks len tickNum tickL = mconcat [ fromVertices [ x ^& 0, x ^& tickL ] | x <- ticksPos ] 
   where
     ticksPos = enumFromThenTo 0 step len
     step = len / (fromIntegral tickNum - 1)
+-}

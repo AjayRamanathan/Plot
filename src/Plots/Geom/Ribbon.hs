@@ -22,6 +22,7 @@ import Diagrams.Prelude
 import Diagrams.TwoD.Path
 import Diagrams.Attributes
 
+import Plots.Dataset
 import Plots.Types
 import Plots.Utils
 

@@ -5,11 +5,11 @@
 {-# LANGUAGE TypeFamilies #-}
 
 module Plots.Geom.Point
-    ( points
-    , PointOpts
-    , shape
+    ( --points
+    --, PointOpts
+    --, shape
     
-    , Geom_Point(..)
+      Geom_Point(..)
 
     , createpointdata
     , pointplot
@@ -28,9 +28,11 @@ import Data.Default
 import Data.List
 import Data.Maybe
 
-import Plots.Types
+import Plots.Api
+import Plots.Dataset
 import Plots.Utils
 
+{-
 data PointOpts = PointOpts
     { _shape :: Char
     }
@@ -50,7 +52,6 @@ points xs ys opt mapX mapY = map (uncurry moveTo) ps
     s = lwO 1 $ stroke.getShape $ opt^.shape
     pMap = compose mapX mapY
 
-getShape :: Char -> Path V2 Double
 {-# INLINE getShape #-}
 getShape s | s == 'o' = circle 0.07
            | s == '^' = eqTriangle 0.1
@@ -60,14 +61,13 @@ getShape s | s == 'o' = circle 0.07
            | s == 'x' = cross 0.07
            | otherwise = circle 0.07
 
-cross :: Double -> Path V2 Double
 {-# INLINE cross #-}
 cross x = fromVertices [ x^&(-x) , (-x)^&x ]
           <> fromVertices [ x^&x , (-x)^&(-x) ]
 
-plus :: Double -> Path V2 Double
 {-# INLINE plus #-}
 plus x = cross x # rotate (45 @@ deg)
+-}
 -------------------------- Geom Point -------------------------------------------------
 
 data Geom_Point = Geom_Point 
@@ -80,17 +80,6 @@ data Geom_Point = Geom_Point
     , pointBorderColour :: Colour Double
     , pointShape :: PointShape
     }
-
-data PointShape = PointShapeCircle   --  A circle.
-                | PointShapeTriangle -- A Triangle
-                | PointShapeSquare -- Square
-
--- add more shapes, with parameters
-
-shapeScale :: [PointShape]
-shapeScale = [PointShapeCircle, PointShapeTriangle, PointShapeSquare]
-
-shapedata = mapdisContinous species shapeScale
 
 instance Default Geom_Point where
   def = Geom_Point
@@ -175,6 +164,6 @@ stars :: Double -- radius
       -> PointOpts
 stars radius size alphacolor =
   PointOpts transparent alphacolor size radius PointShapeStar
-
+-}
 
 ---each has definitions, tranform & draw.M.S, and api

@@ -1,5 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
-
+module Plots.Geom.Heatmap where
+{-
 module Plots.Geom.Heatmap
     ( heatmap
     , HeatmapOpt
@@ -74,5 +75,5 @@ colorMapSmooth x colors = blend p (colors V.! i) $ colors V.! (i+1)
       | otherwise = truncate $ x * (fromIntegral n - 1)
     n = V.length colors
 {-# INLINE colorMapSmooth #-}
-
+-}
 --rectangle --raster --smoothraster --tile 

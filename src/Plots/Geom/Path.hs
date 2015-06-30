@@ -22,8 +22,9 @@ import Data.Maybe
 
 import Diagrams.Prelude
 
+import Plots.Dataset
 import Plots.Types
-import Plots.Utils (hasNaN)
+import Plots.Utils
 
 data LineOpts = LineOpts
     { _lineshape :: Char
