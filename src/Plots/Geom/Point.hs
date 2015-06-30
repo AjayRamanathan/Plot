@@ -4,31 +4,33 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE TypeFamilies #-}
 
+module Plots.Geom.Point
+    ( points
+    , PointOpts
+    , shape
+    
+    , Geom_Point(..)
+
+    , createpointdata
+    , pointplot
+    , drawpointM 
+    , transformdrawpoint
+    , transformpointM
+    ) where
+
 import Diagrams.Prelude
 import Diagrams.Backend.Cairo.CmdLine
-import Diagrams.TwoD.Text
-import Diagrams.TwoD.Path
 import Diagrams.Core.Points
 import Diagrams.Attributes
 
-import Diagrams.Prelude
-import Data.Default
 import Control.Lens (makeLenses, (^.))
-import Data.Maybe
-
-import Diagrams.Plots.Types
-
 import Data.Default
 import Data.List
+import Data.Maybe
 
-module Plots.Point
-    (-- points
-    --, PointOpts
-    --, shape
-    ) where
+import Plots.Types
+import Plots.Utils
 
-
-{-
 data PointOpts = PointOpts
     { _shape :: Char
     }
@@ -66,7 +68,6 @@ cross x = fromVertices [ x^&(-x) , (-x)^&x ]
 plus :: Double -> Path V2 Double
 {-# INLINE plus #-}
 plus x = cross x # rotate (45 @@ deg)
--}
 -------------------------- Geom Point -------------------------------------------------
 
 data Geom_Point = Geom_Point 
@@ -85,6 +86,11 @@ data PointShape = PointShapeCircle   --  A circle.
                 | PointShapeSquare -- Square
 
 -- add more shapes, with parameters
+
+shapeScale :: [PointShape]
+shapeScale = [PointShapeCircle, PointShapeTriangle, PointShapeSquare]
+
+shapedata = mapdisContinous species shapeScale
 
 instance Default Geom_Point where
   def = Geom_Point
@@ -111,26 +117,64 @@ drawpointM pdata = position (zip (map makepoint [(x, y)| Geom_Point x y _ _ _ _ 
                        getShape PointShapeTriangle  = triangle
                        getShape PointShapeSquare  = square   --- change this maybe add seperate code for size problems
 
--- for single Geom_Point
----------------
-shapeScale :: [PointShape]
-shapeScale = [PointShapeCircle, PointShapeTriangle, PointShapeSquare]
-
-alphaScale = (0.3, 0.7)
-sizeScale = (0.01, 0.02)
-colourScale = [red, blue, green, black]
-shapedata = mapdisContinous species shapeScale
-colourdata = mapdisContinous species colourScale
-
 --- api --------
 
 pointplot :: (SizeSystem c, ColourSystem d, ShapeSystem e, Fractional c) => DataFrame -> DataFrame -> c -> d -> e -> [Geom_Point]
 pointplot a b c d e = (createpointdata (createdata a) (createdata b) (sizesystem c) (coloursystem d) (shapesystem e))
 
 createpointdata :: [Double] -> [Double] -> [Double] -> [Colour Double] -> [PointShape] -> [Geom_Point]
-createpointdata a b c d e = map turntest1 [(a!!i, b!!i, c!!i, d!!i, 0.3, 0.003, d!!i, e!!i) | i <- [0..((length a) - 1)]] --- change this 
+createpointdata a b c d e = [Geom_Point (a!!i) (b!!i) (c!!i) (d!!i) 0.3 0.003 (d!!i) (e!!i) | i <- [0..((length a) - 1)]] --- change this 
 
-turntest1 (a,b,c,d,e,f,g,h)= Geom_Point a b c d e f g h --change
+{- explore futher shapes Trail V2 Double, also compensate for size, make api for scatterplot
+
+filledCiralphacolores :: Double -> AlphaColour Double -> PointOpts
+filledCiralphacolores radius alphacolor = 
+  PointOpts alphacolor transparent 0 radius PointShapeCiralphacolore
+
+
+hollowCiralphacolores :: Double -- radius
+              -> Double -- size.
+              -> AlphaColour Double -- color
+              -> PointOpts
+hollowCiralphacolores radius size alphacolor = 
+  PointOpts transparent alphacolor size radius PointShapeCiralphacolore
+
+hollowPolygon :: Double -- radius
+              -> Double -- size
+              -> Int    -- n
+              -> Bool   -- upside
+              -> AlphaColour Double -- color
+              -> PointOpts
+hollowPolygon radius size sides right alphacolor = 
+  PointOpts transparent alphacolor size radius (PointShapePolygon sides right)
+
+filledPolygon :: Double -> Int -> Bool -> AlphaColour Double -> PointOpts
+filledPolygon radius sides right alphacolor = 
+  PointOpts alphacolor transparent 0 radius (PointShapePolygon sides right)
+
+-- plus
+plusss :: Double -- radius
+       -> Double -- size
+       -> AlphaColour Double -- size
+       -> PointOpts
+plusss radius size alphacolor = 
+  PointOpts transparent alphacolor size radius PointShapePlus
+
+-- cross
+xs :: Double -- radius
+   -> Double -- size
+   -> AlphaColour Double -- colur
+   -> PointOpts
+xs radius size alphacolor =
+  PointOpts transparent alphacolor size radius PointShapeCross
+
+-- stars
+stars :: Double -- radius
+      -> Double -- size
+      -> AlphaColour Double 
+      -> PointOpts
+stars radius size alphacolor =
+  PointOpts transparent alphacolor size radius PointShapeStar
 
 
 ---each has definitions, tranform & draw.M.S, and api

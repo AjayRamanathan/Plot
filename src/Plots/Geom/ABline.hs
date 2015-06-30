@@ -1,19 +1,21 @@
-{-# LANGUAGE TemplateHaskell #-}
+module Plots.Geom.ABline where
 
-module Plot.Geom.AbLine
-    (-- points
-    --, PointOpts
-    --, shape
-    ) where
+--{-# LANGUAGE TemplateHaskell #-}
 
-import Diagrams.Prelude
-import Data.Default
-import Control.Lens (makeLenses, (^.))
-import Data.Maybe
+--module Plot.Geom.AbLine
+  --  ( 
+    --,
+    --, 
+  --  ) where
 
-import Diagrams.Plots.Typ
+--import Diagrams.Prelude
+--import Data.Default
+--import Control.Lens (makeLenses, (^.))
+--import Data.Maybe
 
---------------------------------------------
+--import Diagrams.Plots.Typ
+
+------------------ perhaps use linerange or path ?? ---------------
 
 --data Geom_abline = Geom_abline
 --    { intercept :: Double
@@ -27,7 +29,7 @@ import Diagrams.Plots.Typ
 --vline and hline function
 
 
-----------------------------------------------
+-------------------------------Segment with option for arrow---------------
 {-
 data Geom_Segment = Geom_Segment
     { segmentX :: 
@@ -40,7 +42,7 @@ data Geom_Segment = Geom_Segment
     , segmentsize ::
 --    , segmentarrowend ::
     }
--------------------------
+------------Text-------------
 
 data Geom_text = Geom_text
     { textlabel ::
@@ -55,6 +57,6 @@ data Geom_text = Geom_text
     , anchor ::
     }
 
---- density, function, frequency and smooth --contour
+--- density, function, frequency and  --contour
 --polar --pie --line --abline --ribbon --path --point
---rectangle --raster --smoothraster --tile 
+-}
